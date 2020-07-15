@@ -1,13 +1,19 @@
 const express = require('express')
-const app = express();
+const server = express();
 const PORT = 5000;
 const userRoutes = require('./routes/userRoutes');
 const dbConfig = require('./database/dbConfig');
+const authRouter = require('./auth/auth-router');
 
-app.use(express.json());
-app.use('/auth', userRoutes)
+//global middleware
+server.use(express.json());
 
-app.get('/', (req, res) => res.json({
+
+server.use('/auth', userRoutes)
+server.use('/auth/register', authRouter)
+server.get('/', (req, res) => res.json({
     message: 'Welcome'
 }))
-app.listen(PORT, () => console.log(`App listening to http://localhost:${PORT}`))
+
+
+module.exports = server;

@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs")
 const router= require("express").Router();
-const Users = require("../models/usersModel.js");
+const Users = require("../models/userModels.js");
 const jwt = require('jsonwebtoken'); // installed this library
 const { jwtSec } = require('../config/security');
 const {generateToken} = require('../utils/utils');

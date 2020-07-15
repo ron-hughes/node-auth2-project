@@ -9,8 +9,8 @@ const authRouter = require('./auth/auth-router');
 server.use(express.json());
 
 
-server.use('/auth', userRoutes)
-server.use('/auth/register', authRouter)
+server.use('/', userRoutes)
+server.use('/auth', authRouter)
 server.get('/', (req, res) => res.json({
     message: 'Welcome'
 }))

@@ -8,22 +8,18 @@ module.exports = {
   remove
 }
 
-function getAll(dept) {
+function getAll() {
   return db('users')
-  .select('id', 'username', 'department')
-  .where({'department': dept})
-}//end find
+}
+
 
 function findBy(filter) {
   return db('users').where(filter);
 }//end findBy
 
 function findById(id) {
-  return db('users')
-    .where({ id })
-    .select('id', 'username', 'department')
-    .first();
-}//end findById
+  return db("users").where({ id })
+}
 
 async function add(user) {
   const [id] = await db('users')

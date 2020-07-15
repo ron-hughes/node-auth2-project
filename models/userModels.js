@@ -1,33 +1,41 @@
-const db = require('../database/dbConfig')
+const db = require('../database/dbConfig');
 
 module.exports = {
-    getUsers,
-    getUserById,
-    getBy,
-    addUser,
-
+  getAll,
+  findBy,
+  findById,
+  add,
+  remove
 }
 
-// GETS ALL USERS IN DB
-function getUsers() {
-    return db('users')
-}
+function getAll(dept) {
+  return db('users')
+  .select('id', 'username', 'department')
+  .where({'department': dept})
+}//end find
 
-// GET SPECIFIC USER BY ID
-function getUserById(id) {
-    return db("users").where({ id })
- }
+function findBy(filter) {
+  return db('users').where(filter);
+}//end findBy
 
-// GET USER BY USERNAME 
+function findById(id) {
+  return db('users')
+    .where({ id })
+    .select('id', 'username', 'department')
+    .first();
+}//end findById
 
-function getBy(filter) {
-    return db("users").where(filter);
-  }
+async function add(user) {
+  const [id] = await db('users')
+    .insert(user, 'id');
+  return findById(id);
+}//end add
 
-// REGISTER NEW USER
-async function addUser(user) {
-     const [id] = await db("users").insert(user, "id")
-
-
-     return getUserById(id);
- }
+async function remove(id) {
+  const delUser = await findById(id).select('username');
+  return db('users')
+    .select('username')
+    .where({ id })
+    .del(id)
+    .then(res => { return delUser });
+}//end delete
